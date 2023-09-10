@@ -5,6 +5,9 @@ from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import HuggingFaceInstructEmbeddings,OpenAIEmbeddings
 from langchain.vectorstores import FAISS
+from langchain.memory import ConversationBufferMemory
+from langchain.chains import ConversationalRetrievalChain
+from langchain.chat_models import ChatOpenAI
 
 
 def get_plain_text(pdf_documents):
@@ -30,11 +33,23 @@ def get_vectorstore(chunks_text):
     # embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-xl")
     vectorstore = FAISS.from_texts(texts=chunks_text, embedding=embeddings)
     return vectorstore
+def get_conversation(vectorstore):
+    llm = ChatOpenAI()
+    memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True)
+    conversation_chain = ConversationalRetrievalChain.from_llm(
+        llm=llm,
+        retriever=vectorstore.as_retriever(),
+        memory=memory
+    )
+    return conversation_chain
+
 def main():
     #initialize .env
     load_dotenv()
     # Page configuration
     stream.set_page_config(page_title="Chat with the Mentor",page_icon=":books:")
+    if "conversation" not in stream.session_state():
+        stream.session_state.conversation = None
     # Header section
     stream.header("Chat with your Mentor")
     stream.text_input("Ask a question to the Mentor")
@@ -51,7 +66,10 @@ def main():
                 chunks_text = get_chunks_text(plain_text)
                 # create the vector store for the text chunks
                 vectorstore = get_vectorstore(chunks_text)
+                # create a conversation chain
+                stream.session_state.conversation = get_conversation(vectorstore)
 
+    stream.session_state.conversation
 
 
 if __name__ == "__main__":
