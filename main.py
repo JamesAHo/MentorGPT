@@ -8,6 +8,7 @@ from langchain.vectorstores import FAISS
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
+from htmlTemplates import css, bot_template, user_template
 
 
 def get_plain_text(pdf_documents):
@@ -42,17 +43,40 @@ def get_conversation(vectorstore):
         memory=memory
     )
     return conversation_chain
+def handle_input(question_input):
+    response = stream.session_state.conversation({'question': question_input})
+
+    stream.session_state.chat_history = response['chat_history']
+
+    for i, message in enumerate(stream.session_state.chat_history):
+        if i % 2 == 0:
+            stream.write(user_template.replace("{{MSG}}",message.content), unsafe_allow_html=True)
+        else:
+            stream.write(bot_template.replace("{{MSG}}",message.content), unsafe_allow_html=True)
+
+              
 
 def main():
     #initialize .env
     load_dotenv()
     # Page configuration
     stream.set_page_config(page_title="Chat with the Mentor",page_icon=":books:")
-    if "conversation" not in stream.session_state():
+    # initialize html
+    stream.write(css, unsafe_allow_html=True)
+    if "conversation" not in stream.session_state:
         stream.session_state.conversation = None
+    if "chat_history" not in stream.session_state:
+        stream.session_state.chat_history = None
     # Header section
     stream.header("Chat with your Mentor")
-    stream.text_input("Ask a question to the Mentor")
+    # Handle user question input
+    question_input = stream.text_input("Ask a question to the Mentor")
+    if question_input:
+        handle_input(question_input)
+    ## Mentor and user templates
+    stream.write(user_template.replace("{{MSG}}", "User"), unsafe_allow_html=True)
+    stream.write(bot_template.replace("{{MSG}}", "Bot"), unsafe_allow_html=True)
+
     # Side bar section
     with stream.sidebar:
         stream.subheader("Documents")
@@ -69,7 +93,6 @@ def main():
                 # create a conversation chain
                 stream.session_state.conversation = get_conversation(vectorstore)
 
-    stream.session_state.conversation
 
 
 if __name__ == "__main__":
