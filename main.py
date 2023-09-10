@@ -73,9 +73,6 @@ def main():
     question_input = stream.text_input("Ask a question to the Mentor")
     if question_input:
         handle_input(question_input)
-    ## Mentor and user templates
-    stream.write(user_template.replace("{{MSG}}", "User"), unsafe_allow_html=True)
-    stream.write(bot_template.replace("{{MSG}}", "Bot"), unsafe_allow_html=True)
 
     # Side bar section
     with stream.sidebar:
