@@ -79,6 +79,7 @@ def main():
         stream.subheader("Documents")
         pdf_documents = stream.file_uploader("Upload The PDFs here and click on Process", accept_multiple_files=True)
         if stream.button("Process"):
+            # added spinner while processing documents
             with stream.spinner("Processing"):
                 #There are 3 parts of the process
                 # extract the text from PDF file
