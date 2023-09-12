@@ -77,6 +77,7 @@ def main():
     # Side bar section
     with stream.sidebar:
         stream.subheader("Documents")
+        # start to process pdf files
         pdf_documents = stream.file_uploader("Upload The PDFs here and click on Process", accept_multiple_files=True)
         if stream.button("Process"):
             # added spinner while processing documents
