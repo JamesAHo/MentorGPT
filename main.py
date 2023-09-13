@@ -89,7 +89,7 @@ def main():
                 chunks_text = get_chunks_text(plain_text)
                 # create the vector store for the text chunks
                 vectorstore = get_vectorstore(chunks_text)
-                # create a conversation chain
+                # create a conversation chain and session
                 stream.session_state.conversation = get_conversation(vectorstore)
 
 
