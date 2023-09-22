@@ -30,10 +30,6 @@ The application employs vector store databases to efficiently store and retrieve
 
 ![System Design Diagram](/systemdesign/MentorGPT.jpg)
 
-(Insert your system design diagram image here)
-
-Explain your system design and architecture here. Describe how the different components of MentorGPT work together to achieve its goals.
-
 ## Technologies Used
 
 MentorGPT is built using the following technologies:
