@@ -29,6 +29,9 @@ The application employs vector store databases to efficiently store and retrieve
 ## System Design
 
 ![System Design Diagram](/systemdesign/MentorGPT.jpg)
+## Mock up
+
+![Project Mockup](/systemdesign/mockup.png)
 
 ## Technologies Used
 
