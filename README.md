@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Welcome to MentorGPT, an innovative application designed to help users extract information from PDF files and interact with a large language model like OpenAI's GPT-4.0. This README provides an overview of the application, its purpose, features, system design, and the technologies used in its development.
+Welcome to MentorGPT, an innovative application designed to help users extract information from PDF files and interact with a large language model like OpenAI's GPT-3.5. This README provides an overview of the application, its purpose, features, system design, and the technologies used in its development.
 
 ## Purpose
 
@@ -14,7 +14,7 @@ MentorGPT is created with the goal of simplifying the process of extracting rele
 
 MentorGPT allows users to upload PDF files, which are then processed to extract text content. This extracted text serves as the basis for subsequent interactions with the language model.
 
-### 2. Integration with OpenAI's GPT-4.0
+### 2. Integration with OpenAI's GPT-3.5
 
 The application integrates seamlessly with OpenAI's GPT-4.0 model, enabling users to ask questions, seek explanations, or request summaries of the information extracted from the PDFs. The language model provides natural language responses to user queries.
 
